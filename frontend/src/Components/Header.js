@@ -20,7 +20,7 @@ function Header() {
 
   return (
     <div className="headercontainer">
-      <h1>Welcome, {loggedInUser}</h1>
+      <h1>Welcome to Shop Ledger, {loggedInUser}</h1>
       <div className="nav-links">
         <Link to="/home" className="navlink">Home</Link>
         <Link to="/customers" className="navlink">Customers</Link>
