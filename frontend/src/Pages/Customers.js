@@ -21,7 +21,7 @@ function Customer() {
   const fetchCustomers = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:8080/customers', {
+      const response = await fetch('https://shop-ledger-backend.onrender.com/customers', {
         headers: {
           'Authorization': jwtToken,
         },
@@ -42,7 +42,7 @@ function Customer() {
 
   const fetchShopDetails = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:8080/auth/user-details', {
+      const response = await fetch('https://shop-ledger-backend.onrender.com/auth/user-details', {
         headers: {
           'Authorization': jwtToken,
         },
@@ -69,7 +69,7 @@ function Customer() {
 
   const handleDelete = async (customerId) => {
     try {
-      const response = await fetch(`http://localhost:8080/customers/${customerId}`, {
+      const response = await fetch(`https://shop-ledger-backend.onrender.com/customers/${customerId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': jwtToken,
@@ -116,7 +116,7 @@ function Customer() {
 
     try {
       const newPaidAmount = parseFloat(selectedCustomer.paidAmount) + parseFloat(formData.paidAmount);
-      const response = await fetch(`http://localhost:8080/customers/${selectedCustomer._id}`, {
+      const response = await fetch(`https://shop-ledger-backend.onrender.com/customers/${selectedCustomer._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

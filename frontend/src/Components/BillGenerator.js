@@ -18,7 +18,7 @@ function BillGenerator({ isOpen, onClose, onBillGenerated }) {
 
   const fetchProducts = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:8080/products', {
+      const response = await fetch('https://shop-ledger-backend.onrender.com/products', {
         headers: {
           'Authorization': jwtToken,
         },
@@ -119,7 +119,7 @@ function BillGenerator({ isOpen, onClose, onBillGenerated }) {
     }
 
     try {
-      const response = await fetch('http://localhost:8080/customers/add', {
+      const response = await fetch('https://shop-ledger-backend.onrender.com/customers/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

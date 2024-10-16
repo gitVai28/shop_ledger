@@ -21,7 +21,7 @@ function ProductTable() {
   const fetchProducts = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await fetch('http://localhost:8080/products', {
+      const response = await fetch('https://shop-ledger-backend.onrender.com/products', {
         method: 'GET',
         headers: {
           Authorization: jwtToken,
@@ -54,7 +54,7 @@ function ProductTable() {
 
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`http://localhost:8080/products/${id}`, {
+      const response = await fetch(`https://shop-ledger-backend.onrender.com/products/${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: jwtToken,
@@ -92,7 +92,7 @@ function ProductTable() {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:8080/products/${editProduct._id}`, {
+      const response = await fetch(`https://shop-ledger-backend.onrender.com/products/${editProduct._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -119,7 +119,7 @@ function ProductTable() {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:8080/products', {
+      const response = await fetch('https://shop-ledger-backend.onrender.com/products', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

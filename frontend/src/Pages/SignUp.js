@@ -29,7 +29,7 @@ function SignUp() {
         return handleError('Please fill in all fields');
     }
     try{
-        const url = "http://localhost:8080/auth/signup";
+        const url = "https://shop-ledger-backend.onrender.com/auth/signup";
         const responce = await fetch(url, {
             method: 'POST',
             headers: {

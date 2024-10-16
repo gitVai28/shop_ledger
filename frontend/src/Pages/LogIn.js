@@ -26,7 +26,7 @@ function Login() {
       return handleError('Please fill in all fields');
     }
     try {
-      const url = "http://localhost:8080/auth/login";
+      const url = "https://shop-ledger-backend.onrender.com/auth/login";
       const response = await fetch(url, {
         method: 'POST',
         headers: {
