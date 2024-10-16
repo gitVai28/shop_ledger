@@ -1,9 +1,8 @@
-// Customers.js
 import React, { useState, useEffect, useCallback } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import BillGenerator from '../Components/BillGenerator';
-import './Customers.css'; // Make sure to create this CSS file
+import './Customers.css';
 
 function Customer() {
   const [customers, setCustomers] = useState([]);
@@ -12,9 +11,7 @@ function Customer() {
   const [editModalIsOpen, setEditModalIsOpen] = useState(false);
   const [billModalIsOpen, setBillModalIsOpen] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
-  const [formData, setFormData] = useState({
-    paidAmount: '',
-  });
+  const [formData, setFormData] = useState({ paidAmount: '' });
   const [shopDetails, setShopDetails] = useState({ name: '', contactNo: '' });
   const jwtToken = localStorage.getItem('jwtToken');
 
@@ -22,9 +19,7 @@ function Customer() {
     try {
       setLoading(true);
       const response = await fetch('https://shop-ledger-backend.onrender.com/customers', {
-        headers: {
-          'Authorization': jwtToken,
-        },
+        headers: { 'Authorization': jwtToken },
       });
       const data = await response.json();
       if (response.ok) {
@@ -43,9 +38,7 @@ function Customer() {
   const fetchShopDetails = useCallback(async () => {
     try {
       const response = await fetch('https://shop-ledger-backend.onrender.com/auth/user-details', {
-        headers: {
-          'Authorization': jwtToken,
-        },
+        headers: { 'Authorization': jwtToken },
       });
       const data = await response.json();
       if (response.ok) {
@@ -71,11 +64,8 @@ function Customer() {
     try {
       const response = await fetch(`https://shop-ledger-backend.onrender.com/customers/${customerId}`, {
         method: 'DELETE',
-        headers: {
-          'Authorization': jwtToken,
-        },
+        headers: { 'Authorization': jwtToken },
       });
-
       if (response.ok) {
         setCustomers(customers.filter(customer => customer._id !== customerId));
         toast.success('Customer deleted successfully');
@@ -90,9 +80,7 @@ function Customer() {
 
   const handleEdit = (customer) => {
     setSelectedCustomer(customer);
-    setFormData({
-      paidAmount: '',
-    });
+    setFormData({ paidAmount: '' });
     setEditModalIsOpen(true);
   };
 
@@ -103,17 +91,12 @@ function Customer() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevFormData => ({
-      ...prevFormData,
-      [name]: value
-    }));
+    setFormData(prevFormData => ({ ...prevFormData, [name]: value }));
   };
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
-
     if (!selectedCustomer) return;
-
     try {
       const newPaidAmount = parseFloat(selectedCustomer.paidAmount) + parseFloat(formData.paidAmount);
       const response = await fetch(`https://shop-ledger-backend.onrender.com/customers/${selectedCustomer._id}`, {
@@ -124,7 +107,6 @@ function Customer() {
         },
         body: JSON.stringify({ paidAmount: newPaidAmount }),
       });
-
       if (response.ok) {
         const { customer: updatedCustomer } = await response.json();
         setCustomers(customers.map(customer =>
@@ -143,12 +125,17 @@ function Customer() {
   };
 
   const generateReceipt = (customer) => {
+    if (!customer || !customer.purchasedProducts) {
+      toast.error('Invalid customer data for receipt generation');
+      return;
+    }
+
     const receiptContent = `
       <html>
         <head>
           <style>
             body { font-family: Arial, sans-serif; }
-            .receipt { width: 300px; margin: 0 auto; }
+            .receipt { width: 400px; margin: 0 auto; }
             .header { text-align: center; margin-bottom: 20px; }
             table { width: 100%; border-collapse: collapse; }
             th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
@@ -165,21 +152,23 @@ function Customer() {
             <table>
               <tr>
                 <th>Product</th>
+                <th>Price per Item</th>
                 <th>Quantity</th>
                 <th>Subtotal</th>
               </tr>
               ${customer.purchasedProducts.map(product => `
                 <tr>
                   <td>${product.productId?.productName || 'N/A'}</td>
+                  <td>₹${(product.productId?.price || 0).toFixed(2)}</td>
                   <td>${product.quantity}</td>
                   <td>₹${((product.productId?.price || 0) * product.quantity).toFixed(2)}</td>
                 </tr>
               `).join('')}
             </table>
             <div class="total">
-              <p>Total Amount: ₹${customer.totalAmount?.toFixed(2)}</p>
-              <p>Paid Amount: ₹${customer.paidAmount?.toFixed(2)}</p>
-              <p>Pending Amount: ₹${customer.pendingAmount?.toFixed(2)}</p>
+              <p>Total Amount: ₹${customer.totalAmount?.toFixed(2) || '0.00'}</p>
+              <p>Paid Amount: ₹${customer.paidAmount?.toFixed(2) || '0.00'}</p>
+              <p>Pending Amount: ₹${customer.pendingAmount?.toFixed(2) || '0.00'}</p>
             </div>
             <p>Shop Contact: ${shopDetails.contactNo}</p>
           </div>
@@ -193,14 +182,8 @@ function Customer() {
     printWindow.print();
   };
 
-
-  if (loading) {
-    return <div>Loading customers...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  if (loading) return <div>Loading customers...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="customer-container">
@@ -230,13 +213,13 @@ function Customer() {
                 <td>
                   {customer.purchasedProducts && customer.purchasedProducts.map((product, index) => (
                     <div key={index}>
-                      {product.productId?.productName} - {product.quantity}
+                      {product.productId?.productName || 'N/A'} - {product.quantity}
                     </div>
                   ))}
                 </td>
-                <td>{customer.totalAmount?.toFixed(2)}</td>
-                <td>{customer.paidAmount?.toFixed(2)}</td>
-                <td>{customer.pendingAmount?.toFixed(2)}</td>
+                <td>{customer.totalAmount?.toFixed(2) || '0.00'}</td>
+                <td>{customer.paidAmount?.toFixed(2) || '0.00'}</td>
+                <td>{customer.pendingAmount?.toFixed(2) || '0.00'}</td>
                 <td>{customer.customerPhone}</td>
                 <td>
                   <button onClick={() => handleEdit(customer)} className="edit-btn">Edit</button>
@@ -258,9 +241,9 @@ function Customer() {
             </div>
             <form onSubmit={handleEditSubmit} className="modal-form">
               <div className="form-group">
-                <p>Total Bill: ₹{selectedCustomer.totalAmount?.toFixed(2)}</p>
-                <p>Current Paid Amount: ₹{selectedCustomer.paidAmount?.toFixed(2)}</p>
-                <p>Current Pending Bill: ₹{selectedCustomer.pendingAmount?.toFixed(2)}</p>
+                <p>Total Bill: ₹{selectedCustomer.totalAmount?.toFixed(2) || '0.00'}</p>
+                <p>Current Paid Amount: ₹{selectedCustomer.paidAmount?.toFixed(2) || '0.00'}</p>
+                <p>Current Pending Bill: ₹{selectedCustomer.pendingAmount?.toFixed(2) || '0.00'}</p>
                 <label htmlFor="paidAmount">Additional Amount Paid (INR)</label>
                 <input
                   type="number"
