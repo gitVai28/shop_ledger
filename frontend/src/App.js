@@ -33,17 +33,20 @@ function App() {
   const showHeader = isAuthenticated && location.pathname !== '/login';
 
   return (
-    <div className="App">
-      {showHeader && <Header onLogout={handleLogout} />}
-      <Routes>
-        <Route path="/" element={isAuthenticated ? <Navigate to="/home" /> : <Navigate to="/login" />} />
-        <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/home" element={<PrivateRoute element={<Home />} />} />
-        <Route path="/customers" element={<PrivateRoute element={<Customers />} />} />
-      </Routes>
+    <div className="app-container">
+      {showHeader && <Header onLogout={handleLogout} className="header-container" />}
+      <div className="route-container">
+        <Routes>
+          <Route path="/" element={isAuthenticated ? <Navigate to="/home" /> : <Navigate to="/login" />} />
+          <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/home" element={<PrivateRoute element={<Home />} />} />
+          <Route path="/customers" element={<PrivateRoute element={<Customers />} />} />
+        </Routes>
+      </div>
     </div>
   );
+  
 }
 
 export default App;

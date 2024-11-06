@@ -1,0 +1,47 @@
+/* Dashboard.css */
+
+.dashboard-container {
+  padding: 15px; /* Reduced padding for compactness */
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 1200px; /* Reduced max-width for a more contained layout */
+  width: 100%;
+  margin: 20px auto;
+}
+
+.dashboard-title {
+  font-size: 1.8rem; /* Slightly reduced font size */
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 8px; /* Reduced space below the title */
+  text-align: center;
+}
+
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0; /* Removed extra space above the table */
+}
+
+.product-table th,
+.product-table td {
+  padding: 10px; /* Reduced padding for a compact look */
+  border: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+.product-table th {
+  background-color: #f3f4f6; /* Slightly darker header background */
+  font-weight: 600;
+  color: #374151; /* Darker color for readability */
+}
+
+.product-table tr:nth-child(even) {
+  background-color: #f9fafb; /* Subtle row contrast */
+}
+
+.product-table tr:hover {
+  background-color: #e5e7eb;
+  transition: background-color 0.3s;
+}

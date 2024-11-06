@@ -20,15 +20,21 @@ function Header() {
 
   return (
     <div className="headercontainer">
-      <h1>Welcome to Shop Ledger, {loggedInUser}</h1>
-      <div className="nav-links">
-        <Link to="/home" className="navlink">Home</Link>
-        <Link to="/customers" className="navlink">Customers</Link>
+      <div className="header-content">
+        <h1>Welcome to Shop Ledger, {loggedInUser}</h1>
+        <div className="button-group">
+          <button onClick={handleLogout} className="logout">
+            Logout
+          </button>
+        </div>
       </div>
-      <div className="button-group">
-        <button onClick={handleLogout} className="logout">
-          Logout
-        </button>
+      <div className="nav-links">
+        <Link to="/home" className="navlink">
+          Home
+        </Link>
+        <Link to="/customers" className="navlink">
+          Customers
+        </Link>
       </div>
       <ToastContainer />
     </div>

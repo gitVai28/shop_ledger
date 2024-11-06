@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import './BillGenerator.css';
 
 
 function BillGenerator({ isOpen, onClose, onBillGenerated }) {
