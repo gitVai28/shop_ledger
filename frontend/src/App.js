@@ -10,8 +10,14 @@ import useRefresh from './useRefresh';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
 
   useEffect(() => {
     const token = localStorage.getItem('jwtToken');
@@ -30,11 +36,21 @@ function App() {
     return isAuthenticated ? element : <Navigate to="/login" />;
   };
 
+  const toggleTheme = () => {
+    setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
+  };
+
   const showHeader = isAuthenticated && location.pathname !== '/login';
 
   return (
     <div className="app-container">
-      {showHeader && <Header onLogout={handleLogout} className="header-container" />}
+      {showHeader && (
+        <Header onLogout={handleLogout} className="header-container">
+          <button onClick={toggleTheme} className="theme-toggle">
+            Toggle {theme === 'light' ? 'Dark' : 'Light'} Mode
+          </button>
+        </Header>
+      )}
       <div className="route-container">
         <Routes>
           <Route path="/" element={isAuthenticated ? <Navigate to="/home" /> : <Navigate to="/login" />} />
@@ -46,7 +62,6 @@ function App() {
       </div>
     </div>
   );
-  
 }
 
 export default App;
