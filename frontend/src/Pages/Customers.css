@@ -288,3 +288,8 @@ h2 {
 .update-btn:hover {
   background-color: #45a049; /* Darker green on hover */
 }
+
+.pending-bill {
+  background-color: #ffcccc; /* Light red background */
+  color: #b30000; /* Darker red text for better visibility */
+}
