@@ -9,6 +9,7 @@ function ProductTable() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState(''); 
   const [newProduct, setNewProduct] = useState({
     productName: '',
     quantity: '',
@@ -149,15 +150,29 @@ function ProductTable() {
     }
   };
 
+  const filteredProducts = products.filter(product =>
+    product.productName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="product-table-container">
       <h2>Product List</h2>
+      
+      <input
+        type="text"
+        placeholder="Search by product name..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="search-bar"
+      />
+
       <button onClick={() => setShowAddModal(true)} className="add-product-btn">
         Add Product
       </button>
+
       {isLoading ? (
         <p>Loading products...</p>
-      ) : products.length > 0 ? (
+      ) : filteredProducts.length > 0 ? (
         <table className="product-table">
           <thead>
             <tr>
@@ -169,10 +184,15 @@ function ProductTable() {
             </tr>
           </thead>
           <tbody>
-            {products.map((product) => (
+            {filteredProducts.map((product) => (
               <tr key={product._id}>
                 <td>{product.productName}</td>
-                <td>{product.quantity}</td>
+                
+                {/* Quantity column turns red if quantity is zero */}
+                <td style={{ color: product.quantity === 0 ? 'red' : 'black' }}>
+                  {product.quantity}
+                </td>
+                
                 <td>{product.price}</td>
                 <td>
                   <button className="edit-btn" onClick={() => handleEdit(product)}>Edit</button>

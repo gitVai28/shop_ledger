@@ -13,6 +13,7 @@ function Customer() {
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [formData, setFormData] = useState({ paidAmount: '' });
   const [shopDetails, setShopDetails] = useState({ name: '', contactNo: '' });
+  const [searchQuery, setSearchQuery] = useState('');
   const jwtToken = localStorage.getItem('jwtToken');
 
   const fetchCustomers = useCallback(async () => {
@@ -94,23 +95,41 @@ function Customer() {
     setFormData(prevFormData => ({ ...prevFormData, [name]: value }));
   };
 
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     if (!selectedCustomer) return;
     try {
       const newPaidAmount = parseFloat(selectedCustomer.paidAmount) + parseFloat(formData.paidAmount);
+      const updatedCustomerData = {
+        ...selectedCustomer,
+        paidAmount: newPaidAmount,
+        pendingAmount: selectedCustomer.totalAmount - newPaidAmount
+      };
+
       const response = await fetch(`https://shop-ledger-backend.onrender.com/customers/${selectedCustomer._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': jwtToken,
         },
-        body: JSON.stringify({ paidAmount: newPaidAmount }),
+        body: JSON.stringify(updatedCustomerData),
       });
+
       if (response.ok) {
         const { customer: updatedCustomer } = await response.json();
         setCustomers(customers.map(customer =>
-          customer._id === updatedCustomer._id ? updatedCustomer : customer
+          customer._id === updatedCustomer._id
+            ? {
+                ...customer,
+                ...updatedCustomer,
+                purchasedProducts: customer.purchasedProducts,
+                customerPhone: customer.customerPhone,
+              }
+            : customer
         ));
         toast.success('Customer updated successfully');
         closeEditModal();
@@ -182,17 +201,36 @@ function Customer() {
     printWindow.print();
   };
 
+  // Filter customers based on search query
+  const filteredCustomers = customers.filter(customer =>
+    customer.customerName.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   if (loading) return <div>Loading customers...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="customer-container">
       <h2>Customers</h2>
-      <button onClick={() => setBillModalIsOpen(true)} className="generate-bill-btn">
-        Generate Bill
-      </button>
+      <div className="customer-header">
+        <div className="search-container">
+          <input
+            type="text"
+            placeholder="Search customers by name..."
+            value={searchQuery}
+            onChange={handleSearchChange}
+            className="search-input"
+          />
+        </div>
+        <button onClick={() => setBillModalIsOpen(true)} className="generate-bill-btn">
+          Generate Bill
+        </button>
+      </div>
+
       {customers.length === 0 ? (
         <p>No customers found.</p>
+      ) : filteredCustomers.length === 0 ? (
+        <p>No matching customers found.</p>
       ) : (
         <table className="customer-table">
           <thead>
@@ -207,8 +245,11 @@ function Customer() {
             </tr>
           </thead>
           <tbody>
-            {customers.map(customer => (
-              <tr key={customer._id}>
+            {filteredCustomers.map(customer => (
+              <tr 
+                key={customer._id} 
+                className={customer.pendingAmount > 0 ? 'pending-bill' : ''}
+              >
                 <td>{customer.customerName}</td>
                 <td>
                   {customer.purchasedProducts && customer.purchasedProducts.map((product, index) => (
@@ -229,6 +270,7 @@ function Customer() {
               </tr>
             ))}
           </tbody>
+
         </table>
       )}
 
