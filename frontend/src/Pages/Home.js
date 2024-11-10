@@ -6,7 +6,7 @@ import './Home.css';
 function Home() {
   return (
     <div className="dashboard-container">
-      <h2 className="dashboard-title">Your Products Dashboard</h2>
+      <h1 className="dashboard-title">Manage Your Products</h1>
       <ProductTable className="product-table" />
     </div>
   );

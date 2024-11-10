@@ -156,90 +156,97 @@ function ProductTable() {
 
   return (
     <div className="product-table-container">
-      <h2>Product List</h2>
+      <h2>Product Collection</h2>
       
-      <input
-        type="text"
-        placeholder="Search by product name..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="search-bar"
-      />
-
-      <button onClick={() => setShowAddModal(true)} className="add-product-btn">
-        Add Product
-      </button>
-
+      <div className="search-controls">
+        <input
+          type="text"
+          placeholder="Search by product name..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-bar"
+        />
+  
+        <button onClick={() => setShowAddModal(true)} className="add-product-btn">
+          Add Product
+        </button>
+      </div>
+  
       {isLoading ? (
         <p>Loading products...</p>
       ) : filteredProducts.length > 0 ? (
-        <table className="product-table">
-          <thead>
-            <tr>
-              <th>Product Name</th>
-              <th>Quantity</th>
-              <th>Price (INR)</th>
-              <th>Edit</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredProducts.map((product) => (
-              <tr key={product._id}>
-                <td>{product.productName}</td>
-                
-                {/* Quantity column turns red if quantity is zero */}
-                <td style={{ color: product.quantity === 0 ? 'red' : 'black' }}>
-                  {product.quantity}
-                </td>
-                
-                <td>{product.price}</td>
-                <td>
-                  <button className="edit-btn" onClick={() => handleEdit(product)}>Edit</button>
-                </td>
-                <td>
-                  <button className="delete-btn" onClick={() => handleDelete(product._id)}>Delete</button>
-                </td>
+        <div className="table-wrapper">
+          <table className="product-table">
+            <thead>
+              <tr>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Price (INR)</th>
+                <th>Edit</th>
+                <th>Delete</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredProducts.map((product) => (
+                <tr key={product._id}>
+                  <td>{product.productName}</td>
+                  <td style={{ color: product.quantity === 0 ? 'red' : 'black' }}>
+                    {product.quantity}
+                  </td>
+                  <td>{product.price}</td>
+                  <td>
+                    <button className="edit-btn" onClick={() => handleEdit(product)}>Edit</button>
+                  </td>
+                  <td>
+                    <button className="delete-btn" onClick={() => handleDelete(product._id)}>Delete</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       ) : (
         <p>No products found.</p>
       )}
-
+  
       {showEditModal && editProduct && (
         <div className="modal-overlay">
           <div className="modal-content">
             <h2>Edit Product</h2>
             <form onSubmit={handleUpdateProduct}>
-              <label>Product Name</label>
-              <input
-                type="text"
-                name="productName"
-                value={editProduct.productName}
-                onChange={(e) => handleChange(e, true)}
-                required
-              />
-
-              <label>Quantity</label>
-              <input
-                type="number"
-                name="quantity"
-                value={editProduct.quantity}
-                onChange={(e) => handleChange(e, true)}
-                required
-              />
-
-              <label>Price (INR)</label>
-              <input
-                type="number"
-                name="price"
-                value={editProduct.price}
-                onChange={(e) => handleChange(e, true)}
-                required
-              />
-
+              <div>
+                <label>Product Name</label>
+                <input
+                  type="text"
+                  name="productName"
+                  value={editProduct.productName}
+                  onChange={(e) => handleChange(e, true)}
+                  required
+                />
+              </div>
+  
+              <div>
+                <label>Quantity</label>
+                <input
+                  type="number"
+                  name="quantity"
+                  value={editProduct.quantity}
+                  onChange={(e) => handleChange(e, true)}
+                  required
+                />
+              </div>
+  
+              <div>
+                <label>Price (INR)</label>
+                <input
+                  type="number"
+                  name="price"
+                  value={editProduct.price}
+                  onChange={(e) => handleChange(e, true)}
+                  required
+                />
+              </div>
+  
               <div className="modal-footer">
                 <button type="button" className="close-btn" onClick={() => setShowEditModal(false)}>Close</button>
                 <button type="submit" className="submit-btn">Update Product</button>
@@ -248,48 +255,56 @@ function ProductTable() {
           </div>
         </div>
       )}
-
+  
       {showAddModal && (
         <div className="modal-overlay">
           <div className="modal-content">
             <h2>Add Product</h2>
             <form onSubmit={handleAddProduct}>
-              <label>Product Name</label>
-              <input
-                type="text"
-                name="productName"
-                value={newProduct.productName}
-                onChange={handleChange}
-                required
-              />
-
-              <label>Quantity</label>
-              <input
-                type="number"
-                name="quantity"
-                value={newProduct.quantity}
-                onChange={handleChange}
-                required
-              />
-
-              <label>Price (INR)</label>
-              <input
-                type="number"
-                name="price"
-                value={newProduct.price}
-                onChange={handleChange}
-                required
-              />
-
-              <label>Date</label>
-              <input
-                type="date"
-                name="date"
-                value={newProduct.date}
-                onChange={handleChange}
-                required
-              />
-
+              <div>
+                <label>Product Name</label>
+                <input
+                  type="text"
+                  name="productName"
+                  value={newProduct.productName}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+  
+              <div>
+                <label>Quantity</label>
+                <input
+                  type="number"
+                  name="quantity"
+                  value={newProduct.quantity}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+  
+              <div>
+                <label>Price (INR)</label>
+                <input
+                  type="number"
+                  name="price"
+                  value={newProduct.price}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+  
+              <div>
+                <label>Date</label>
+                <input
+                  type="date"
+                  name="date"
+                  value={newProduct.date}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+  
               <div className="modal-footer">
                 <button type="button" className="close-btn" onClick={() => setShowAddModal(false)}>Close</button>
                 <button type="submit" className="submit-btn">Add Product</button>
@@ -298,7 +313,7 @@ function ProductTable() {
           </div>
         </div>
       )}
-
+  
       <ToastContainer />
     </div>
   );
