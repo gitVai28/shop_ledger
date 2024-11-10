@@ -12,7 +12,7 @@ function Customer() {
   const [billModalIsOpen, setBillModalIsOpen] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [formData, setFormData] = useState({ paidAmount: '' });
-  const [shopDetails, setShopDetails] = useState({ name: '', contactNo: '' });
+  const [shopDetails, setShopDetails] = useState({ name: '', contactNo: '', address: '' });
   const [searchQuery, setSearchQuery] = useState('');
   const jwtToken = localStorage.getItem('jwtToken');
 
@@ -45,7 +45,8 @@ function Customer() {
       if (response.ok) {
         setShopDetails({
           name: data.user.shopName,
-          contactNo: data.user.phoneNo
+          contactNo: data.user.phoneNo,
+           address: data.user.shopAddress || 'N/A'
         });
       } else {
         throw new Error('Failed to fetch shop details');
@@ -153,21 +154,94 @@ function Customer() {
       <html>
         <head>
           <style>
-            body { font-family: Arial, sans-serif; }
-            .receipt { width: 400px; margin: 0 auto; }
-            .header { text-align: center; margin-bottom: 20px; }
-            table { width: 100%; border-collapse: collapse; }
-            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-            .total { margin-top: 20px; }
+            body { 
+              font-family: Arial, sans-serif;
+              line-height: 1.6;
+              margin: 0;
+              padding: 20px;
+            }
+            .receipt { 
+              width: 400px; 
+              margin: 0 auto;
+              padding: 20px;
+              border: 1px solid #ddd;
+              box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            }
+            .header { 
+              text-align: center;
+              margin-bottom: 20px;
+              border-bottom: 2px solid #000;
+              padding-bottom: 10px;
+            }
+            .shop-name {
+              font-size: 24px;
+              font-weight: bold;
+              margin: 0;
+              padding: 10px 0;
+            }
+            .customer-info {
+              background-color: #f8f8f8;
+              padding: 10px;
+              border-radius: 5px;
+              margin: 15px 0;
+            }
+            table { 
+              width: 100%; 
+              border-collapse: collapse;
+              margin: 20px 0;
+            }
+            th { 
+              background-color: #f2f2f2;
+              padding: 12px 8px;
+              text-align: left;
+              border: 1px solid #ddd;
+            }
+            td { 
+              padding: 10px 8px;
+              border: 1px solid #ddd;
+            }
+            .total-section {
+              margin: 20px 0;
+              padding: 10px;
+              border-top: 1px solid #ddd;
+              border-bottom: 1px solid #ddd;
+            }
+            .amount-row {
+              display: flex;
+              justify-content: space-between;
+              margin: 5px 0;
+            }
+            .footer {
+              text-align: center;
+              margin-top: 30px;
+              padding-top: 20px;
+              border-top: 1px dashed #ddd;
+            }
+            .shop-details {
+              margin-top: 15px;
+              font-size: 0.9em;
+              color: #666;
+            }
+            .thank-you {
+              font-size: 1.1em;
+              font-weight: bold;
+              color: #333;
+              margin: 10px 0;
+            }
           </style>
         </head>
         <body>
           <div class="receipt">
             <div class="header">
-              <h2>${shopDetails.name}</h2>
-              <p>Customer: ${customer.customerName}</p>
-              <p>Date: ${new Date().toLocaleString()}</p>
+              <h1 class="shop-name">${shopDetails.name}</h1>
             </div>
+
+            <div class="customer-info">
+              <p><strong>Customer:</strong> ${customer.customerName}</p>
+              <p><strong>Phone:</strong> ${customer.customerPhone}</p>
+              <p><strong>Date:</strong> ${new Date().toLocaleString()}</p>
+            </div>
+
             <table>
               <tr>
                 <th>Product</th>
@@ -184,12 +258,29 @@ function Customer() {
                 </tr>
               `).join('')}
             </table>
-            <div class="total">
-              <p>Total Amount: ₹${customer.totalAmount?.toFixed(2) || '0.00'}</p>
-              <p>Paid Amount: ₹${customer.paidAmount?.toFixed(2) || '0.00'}</p>
-              <p>Pending Amount: ₹${customer.pendingAmount?.toFixed(2) || '0.00'}</p>
+
+            <div class="total-section">
+              <div class="amount-row">
+                <span><strong>Total Amount:</strong></span>
+                <span>₹${customer.totalAmount?.toFixed(2) || '0.00'}</span>
+              </div>
+              <div class="amount-row">
+                <span><strong>Paid Amount:</strong></span>
+                <span>₹${customer.paidAmount?.toFixed(2) || '0.00'}</span>
+              </div>
+              <div class="amount-row">
+                <span><strong>Pending Amount:</strong></span>
+                <span>₹${customer.pendingAmount?.toFixed(2) || '0.00'}</span>
+              </div>
             </div>
-            <p>Shop Contact: ${shopDetails.contactNo}</p>
+
+            <div class="footer">
+              <p class="thank-you">Thank you for your visit!</p>
+              <div class="shop-details">
+                <p><strong>Address:</strong> ${shopDetails.address}</p>
+                <p><strong>Contact:</strong> ${shopDetails.contactNo}</p>
+              </div>
+            </div>
           </div>
         </body>
       </html>
