@@ -63,7 +63,7 @@ function Customer() {
 
   const handleDelete = async (customerId) => {
     try {
-      const response = await fetch(`https://shop-ledger-backend.onrender.com/customers/${customerId}`, {
+      const response = await fetch(https://shop-ledger-backend.onrender.com/customers/${customerId}, {
         method: 'DELETE',
         headers: { 'Authorization': jwtToken },
       });
@@ -110,7 +110,7 @@ function Customer() {
         pendingAmount: selectedCustomer.totalAmount - newPaidAmount
       };
 
-      const response = await fetch(`https://shop-ledger-backend.onrender.com/customers/${selectedCustomer._id}`, {
+      const response = await fetch(https://shop-ledger-backend.onrender.com/customers/${selectedCustomer._id}, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -149,7 +149,7 @@ function Customer() {
       return;
     }
 
-    const receiptContent = `
+    const receiptContent = 
       <html>
         <head>
           <style>
@@ -175,14 +175,14 @@ function Customer() {
                 <th>Quantity</th>
                 <th>Subtotal</th>
               </tr>
-              ${customer.purchasedProducts.map(product => `
+              ${customer.purchasedProducts.map(product => 
                 <tr>
                   <td>${product.productId?.productName || 'N/A'}</td>
                   <td>₹${(product.productId?.price || 0).toFixed(2)}</td>
                   <td>${product.quantity}</td>
                   <td>₹${((product.productId?.price || 0) * product.quantity).toFixed(2)}</td>
                 </tr>
-              `).join('')}
+              ).join('')}
             </table>
             <div class="total">
               <p>Total Amount: ₹${customer.totalAmount?.toFixed(2) || '0.00'}</p>
@@ -193,7 +193,7 @@ function Customer() {
           </div>
         </body>
       </html>
-    `;
+    ;
 
     const printWindow = window.open('', '_blank');
     printWindow.document.write(receiptContent);
@@ -222,11 +222,9 @@ function Customer() {
             className="search-input"
           />
         </div>
-        <div className="generate-bill-container">
-          <button onClick={() => setBillModalIsOpen(true)} className="generate-bill-btn">
-            Generate Bill
-          </button>
-        </div>
+        <button onClick={() => setBillModalIsOpen(true)} className="generate-bill-btn">
+          Generate Bill
+        </button>
       </div>
 
       {customers.length === 0 ? (
@@ -257,4 +255,64 @@ function Customer() {
                   {customer.purchasedProducts && customer.purchasedProducts.map((product, index) => (
                     <div key={index}>
                       {product.productId?.productName || 'N/A'} - {product.quantity}
-                   
+                    </div>
+                  ))}
+                </td>
+                <td>{customer.totalAmount?.toFixed(2) || '0.00'}</td>
+                <td>{customer.paidAmount?.toFixed(2) || '0.00'}</td>
+                <td>{customer.pendingAmount?.toFixed(2) || '0.00'}</td>
+                <td>{customer.customerPhone}</td>
+                <td>
+                  <button onClick={() => handleEdit(customer)} className="edit-btn">Edit</button>
+                  <button onClick={() => handleDelete(customer._id)} className="delete-btn">Delete</button>
+                  <button onClick={() => generateReceipt(customer)} className="print-btn">Print Receipt</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+
+        </table>
+      )}
+
+      {editModalIsOpen && selectedCustomer && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h2>Edit Paid Bill for {selectedCustomer.customerName}</h2>
+              <button className="close-btn" onClick={closeEditModal}>&times;</button>
+            </div>
+            <form onSubmit={handleEditSubmit} className="modal-form">
+              <div className="form-group">
+                <p>Total Bill: ₹{selectedCustomer.totalAmount?.toFixed(2) || '0.00'}</p>
+                <p>Current Paid Amount: ₹{selectedCustomer.paidAmount?.toFixed(2) || '0.00'}</p>
+                <p>Current Pending Bill: ₹{selectedCustomer.pendingAmount?.toFixed(2) || '0.00'}</p>
+                <label htmlFor="paidAmount">Additional Amount Paid (INR)</label>
+                <input
+                  type="number"
+                  id="paidAmount"
+                  name="paidAmount"
+                  value={formData.paidAmount}
+                  onChange={handleInputChange}
+                  required
+                  min="0"
+                  step="0.01"
+                />
+              </div>
+              <button type="submit" className="update-btn">Update Payment</button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {billModalIsOpen && (
+        <BillGenerator 
+          isOpen={billModalIsOpen} 
+          onClose={() => setBillModalIsOpen(false)}
+          onBillGenerated={fetchCustomers}
+        />
+      )}
+      
+      <ToastContainer />
+    </div>
+  );
+}
