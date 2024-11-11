@@ -1,209 +1,100 @@
 /* Customers.css */
 
 .customer-container {
-  padding: 15px; /* Reduced padding for compactness */
+  padding: 20px; /* Increased padding for a comfortable layout */
   background-color: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  max-width: 1200px; /* Reduced max-width for a more contained layout */
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow */
+  max-width: 1000px; /* Slightly reduced width for more compact feel */
   width: 100%;
-  margin: 20px auto;
+  margin: 30px auto;
 }
+
 h2 {
-  text-align: center; /* Center the header */
-  margin-bottom: 20px; /* Space below the header */
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 24px;
+  color: #333;
+  font-weight: 600;
 }
 
 .generate-bill-btn {
   border: none;
   color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 20px;
-  margin: 10px 0; /* Vertical margin for spacing */
+  padding: 12px 24px;
+  font-size: 18px;
+  margin: 10px 0;
   cursor: pointer;
-  border-radius: 6px; /* Rounded corners */
-  transition: background-color 0.3s; /* Smooth transition */
-  
-  
-  .customer-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  .customer-table th, .customer-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  .customer-table th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-  }
-  
-  .edit-btn, .delete-btn, .print-btn {
-    padding: 5px 10px;
-    margin: 0 5px;
-    border: none;
-    cursor: pointer;
-    border-radius: 3px;
-  }
-  
-  .edit-btn {
-    background-color: #4CAF50;
-    color: white;
-  }
-  
-  .delete-btn {
-    background-color: #f44336;
-    color: white;
-  }
-  
-  .print-btn {
-    background-color: #008CBA;
-    color: white;
-  }
-  
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .modal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-    width: 80%;
-    max-width: 500px;
-  }
-  
-  .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .close-btn {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-  }
-  
-  .modal-form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  .form-group input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
-  .update-btn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .update-btn:hover {
-    background-color: #45a049;
-  }
-  .pending-bill {
-    background-color: #ffcccc; /* Light red background */
-    color: #b30000; /* Darker red text for better visibility */
-  }
-  
+  border-radius: 6px;
+  background-color: #4CAF50;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover effects */
 }
 
 .generate-bill-btn:hover {
-  background-color: #08740d; 
- 
+  background-color: #08740d;
+  transform: translateY(-2px); /* Subtle lift on hover */
 }
 
 .customer-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  margin-top: 25px;
 }
 
 .customer-table th,
 .customer-table td {
   border: 1px solid #ddd;
-  padding: 12px; /* Increased padding for better readability */
+  padding: 12px;
   text-align: left;
 }
 
 .customer-table th {
-  background-color: #f2f2f2; /* Light gray for header */
+  background-color: #f4f4f4;
   font-weight: bold;
+  color: #555;
 }
 
 .edit-btn,
 .delete-btn,
 .print-btn {
-  padding: 10px 15px; /* Padding for buttons */
-  margin: 2px 10px; /* Space between buttons */
+  padding: 10px 15px;
+  margin: 2px 10px;
   border: none;
   cursor: pointer;
-  border-radius: 4px; /* Rounded corners */
-  font-size: 14px; /* Font size for buttons */
-  transition: background-color 0.3s, transform 0.2s; /* Transition effects */
-  width: 50%;
-
+  border-radius: 4px;
+  font-size: 14px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 100px; /* Fixed width for consistency */
 }
 
 .edit-btn {
-  background-color: #4CAF50; /* Green for edit button */
+  background-color: #4CAF50;
   color: white;
 }
 
 .edit-btn:hover {
-  background-color: #45a049; /* Darker green on hover */
+  background-color: #45a049;
+  transform: scale(1.05);
 }
 
 .delete-btn {
-  background-color: #f44336; /* Red for delete button */
+  background-color: #f44336;
   color: white;
 }
 
 .delete-btn:hover {
-  background-color: #d32f2f; /* Darker red on hover */
+  background-color: #d32f2f;
+  transform: scale(1.05);
 }
 
 .print-btn {
-  background-color: #008CBA; /* Blue for print button */
+  background-color: #008CBA;
   color: white;
 }
 
 .print-btn:hover {
-  background-color: #007bb5; /* Darker blue on hover */
+  background-color: #007bb5;
+  transform: scale(1.05);
 }
 
 .modal-overlay {
@@ -212,19 +103,20 @@ h2 {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.6); /* Darker overlay */
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 9999;
 }
 
 .modal-content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 12px; /* Rounded corners */
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
   width: 80%;
   max-width: 500px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Shadow for modal */
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
 }
 
 .modal-header {
@@ -239,6 +131,7 @@ h2 {
   border: none;
   font-size: 24px;
   cursor: pointer;
+  color: #333;
 }
 
 .modal-form {
@@ -247,49 +140,52 @@ h2 {
 }
 
 .form-group {
-  margin-bottom: 15px; /* Space between form fields */
+  margin-bottom: 20px;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 5px; /* Space below label */
-  font-weight: 500; /* Medium font weight */
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
 }
 
-/* Update the input styles */
 .form-group input {
-  width: 90%; 
-  padding: 12px; 
-  margin-top: 5px; /* Space above the input */
-  margin-bottom: 15px; /* Space below the input */
-  border: 1px solid #ccc; /* Light gray border */
-  border-radius: 6px; /* Slightly more rounded corners */
-  font-size: 16px; /* Larger font size for better readability */
-  color: #333; /* Dark text color */
-  transition: border-color 0.3s; /* Smooth transition for focus state */
+  width: 95%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  color: #333;
+  transition: border-color 0.3s ease;
 }
 
 .form-group input:focus {
-  border-color: #4CAF50; /* Change border color on focus */
-  outline: none; /* Remove default outline */
-  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Subtle shadow effect */
+  border-color: #4CAF50;
+  outline: none;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
 }
 
 .update-btn {
-  background-color: #4CAF50; /* Green for update button */
+  background-color: #4CAF50;
   color: white;
-  padding: 10px;
+  padding: 12px;
   border: none;
-  border-radius: 6px; /* Rounded corners */
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s; /* Transition effect */
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .update-btn:hover {
-  background-color: #45a049; /* Darker green on hover */
+  background-color: #45a049;
+  transform: translateY(-2px);
 }
 
 .pending-bill {
-  background-color: #ffcccc; /* Light red background */
-  color: #b30000; /* Darker red text for better visibility */
+  background-color: #ffcccc;
+  color: #b30000;
+  padding: 10px;
+  border-radius: 4px;
+  font-weight: bold;
 }
