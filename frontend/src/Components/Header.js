@@ -1,3 +1,4 @@
+// Header.jsx
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
@@ -6,7 +7,6 @@ import './Header.css';
 
 function Header() {
   const navigate = useNavigate();
-
   const loggedInUser = localStorage.getItem('loggedInUser');
 
   const handleLogout = () => {
@@ -19,23 +19,23 @@ function Header() {
   };
 
   return (
-    <div className="headercontainer">
+    <div className="header-container">
       <div className="header-content">
         <h1>Welcome to Shop Ledger, {loggedInUser}</h1>
         <div className="button-group">
-          <button onClick={handleLogout} className="logout">
+          <button onClick={handleLogout} className="logout-btn">
             Logout
           </button>
         </div>
       </div>
-      <div className="nav-links">
-        <Link to="/home" className="navlink">
+      <nav className="nav-links">
+        <Link to="/home" className="nav-link">
           Home
         </Link>
-        <Link to="/customers" className="navlink">
+        <Link to="/customers" className="nav-link">
           Customers
         </Link>
-      </div>
+      </nav>
       <ToastContainer />
     </div>
   );
