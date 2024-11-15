@@ -53,10 +53,9 @@ function App() {
       )}
       <div className="route-container">
         <Routes>
-          <Route path="/" element={isAuthenticated ? <Navigate to="/home" /> : <Navigate to="/login" />} />
+          <Route path="/" element={isAuthenticated ? <Home /> : <Navigate to="/login" />} />
           <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/home" element={<PrivateRoute element={<Home />} />} />
           <Route path="/customers" element={<PrivateRoute element={<Customers />} />} />
         </Routes>
       </div>

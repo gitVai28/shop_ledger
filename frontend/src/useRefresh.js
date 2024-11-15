@@ -6,17 +6,25 @@ const useRefresh = (setIsAuthenticated) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (localStorage.getItem('jwtToken')) {
+    const token = localStorage.getItem('jwtToken');
+    if (token) {
       setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, [setIsAuthenticated]);
+
+  useEffect(() => {
+    const token = localStorage.getItem('jwtToken');
+    if (!token) {
       if (
-        location.pathname === '/' ||
-        location.pathname === '/login' ||
-        location.pathname === '/signup'
+        location.pathname !== '/login' &&
+        location.pathname !== '/signup'
       ) {
-        navigate('/home', { replace: false });
+        navigate('/login', { replace: true });
       }
     }
-  }, [location, navigate, setIsAuthenticated]);
+  }, [location.pathname, navigate]);
 };
 
 export default useRefresh;
