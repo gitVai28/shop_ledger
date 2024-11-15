@@ -6,25 +6,17 @@ const useRefresh = (setIsAuthenticated) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('jwtToken');
-    if (token) {
+    if (localStorage.getItem('jwtToken')) {
       setIsAuthenticated(true);
-    } else {
-      setIsAuthenticated(false);
-    }
-  }, [setIsAuthenticated]);
-
-  useEffect(() => {
-    const token = localStorage.getItem('jwtToken');
-    if (!token) {
       if (
-        location.pathname !== '/login' &&
-        location.pathname !== '/signup'
+        location.pathname === '/' ||
+        location.pathname === '/login' ||
+        location.pathname === '/signup'
       ) {
-        navigate('/login', { replace: true });
+        navigate('/', { replace: false });
       }
     }
-  }, [location.pathname, navigate]);
+  }, [location, navigate, setIsAuthenticated]);
 };
 
 export default useRefresh;
