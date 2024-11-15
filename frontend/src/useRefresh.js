@@ -9,7 +9,7 @@ const useRefresh = (setIsAuthenticated) => {
     if (localStorage.getItem('jwtToken')) {
       setIsAuthenticated(true);
       if (
-        location.pathname === '/' ||
+        
         location.pathname === '/login' ||
         location.pathname === '/signup'
       ) {
