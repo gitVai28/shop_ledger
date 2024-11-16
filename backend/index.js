@@ -8,15 +8,6 @@ const AuthRouter = require('./Routes/AuthRouter');
 const ProductRouter = require('./Routes/ProductRouter');
 const CustomerRouter = require('./Routes/customerRoutes');
 
-const path = require('path');
-
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, 'build')));
-
-// Catch-all route to handle React routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
 
 
 require('./Models/db');
