@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "build": "npm install",
-"test": "your-test-command"
+    "build": "npm install"
+
   },
   "keywords": [],
   "author": "",
